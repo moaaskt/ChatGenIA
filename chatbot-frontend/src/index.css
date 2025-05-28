@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos base personalizados */
+@layer base {
+  body {
+    @apply font-sans text-gray-800;
+  }
+  
+  /* Melhora a legibilidade das listas nas respostas */
+  ol, ul {
+    @apply pl-5 my-2;
+  }
+  
+  ol {
+    @apply list-decimal;
+  }
+  
+  ul {
+    @apply list-disc;
+  }
+  
+  li {
+    @apply my-1;
+  }
+}
