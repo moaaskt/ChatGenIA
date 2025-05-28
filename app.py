@@ -36,7 +36,7 @@ except Exception as e:
     app.logger.error(f"Erro ao carregar dados iniciais: {str(e)}")
     dados_site = {
         "sobre": "Informações não disponíveis no momento",
-        "duvidas": [],
+        "duvidas": {},
         "cursos": [],
         "precos": "Consulte nossos planos no site",
         "cidades": "Lista não disponível"
@@ -204,10 +204,7 @@ def formatar_duvidas(duvidas, pergunta=None):
         return "Nenhuma dúvida frequente cadastrada no momento."
     
     duvidas_prioritarias = [
-        "O que é Programa Jovem Programador?",
-        "Quem pode participar?",
-        "O programa tem algum custo?",
-        "Como faço para conseguir uma vaga?"
+        
     ]
     
     # Tentar encontrar resposta exata

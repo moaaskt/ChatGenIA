@@ -52,20 +52,16 @@ def extrair_conteudo_sobre():
         }
 
 def extrair_duvidas_frequentes():
-    """Extrai dúvidas frequentes da página correspondente"""
-    url = "https://www.jovemprogramador.com.br/duvidas.php"
     try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
+        url = "https://www.jovemprogramador.com.br/duvidas.php"
+        response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        duvidas = []
+        duvidas = {}
         
-        # Encontra o container de dúvidas
         accordion = soup.find('div', class_='accordion')
         if not accordion:
-            return [{"pergunta": "Dúvidas frequentes", "resposta": "Não foi possível carregar as dúvidas no momento."}]
+            return {"duvidas": {}}
             
-        # Processa cada item de dúvida
         itens_duvida = accordion.find_all('div', recursive=False)
         
         for item in itens_duvida:
@@ -74,16 +70,14 @@ def extrair_duvidas_frequentes():
             resposta = resposta_div.find('p').get_text(strip=True) if resposta_div and resposta_div.find('p') else ""
             
             if pergunta and resposta:
-                duvidas.append({
-                    "pergunta": pergunta,
-                    "resposta": resposta
-                })
+                duvidas[pergunta.strip()] = resposta.strip()
         
-        return duvidas if duvidas else [{"pergunta": "Dúvidas frequentes", "resposta": "Não foi possível carregar as dúvidas no momento."}]
-        
+        return {"duvidas": duvidas}
     except Exception as e:
-        print(f"Erro ao raspar dúvidas frequentes: {e}")
-        return [{"pergunta": "Erro", "resposta": "Não foi possível carregar as dúvidas frequentes."}]
+        print(f"Erro ao raspar 'duvidas': {e}")
+        return {"duvidas": {}}
+
+        
 
 def extrair_cursos():
     """Extrai informações sobre cursos (simplificado)"""
