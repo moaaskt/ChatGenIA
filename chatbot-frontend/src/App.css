@@ -9,7 +9,7 @@
 
 /* Cabeçalho */
 .chat-header {
-  background-color: #4f46e5;
+  background-color: #010007;
   color: white;
   padding: 1rem;
   text-align: center;
@@ -47,7 +47,7 @@
 
 .user-message {
   align-self: flex-end;
-  background-color: #4f46e5;
+  background-color: #010007;
   color: white;
   border-bottom-right-radius: 0.25rem;
 }
@@ -71,7 +71,7 @@
 
 .menu-button {
   background-color: white;
-  color: #4f46e5;
+  color: #010007;
   border: 1px solid #c7d2fe;
   border-radius: 0.75rem;
   padding: 0.75rem 1rem;
@@ -113,12 +113,12 @@
 }
 
 .message-input:focus {
-  border-color: #4f46e5;
+  border-color: #13131b;
   box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
 }
 
 .send-button {
-  background-color: #4f46e5;
+  background-color: #010007;
   color: white;
   border: none;
   border-radius: 1.5rem;
@@ -129,7 +129,7 @@
 }
 
 .send-button:hover {
-  background-color: #4338ca;
+  background-color: #050505f3;
 }
 
 /* Botões de ação rápida */
@@ -205,7 +205,7 @@
 }
 
 .welcome-message button {
-  background-color: #4f46e5;
+  background-color: #070607;
   color: white;
   border: none;
   border-radius: 0.75rem;
