@@ -6,6 +6,7 @@ function App() {
   const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showMenuOptions, setShowMenuOptions] = useState(false)
+  const [isChatOpen, setIsChatOpen] = useState(false)
   const messagesEndRef = useRef(null)
 
   const scrollToBottom = () => {
@@ -49,25 +50,25 @@ function App() {
       })
 
       const data = await response.json()
-      
+
       if (data.error) {
         throw new Error(data.message || 'Erro no servidor')
       }
-      
+
       if (data.menu_options) {
         setShowMenuOptions(true)
       }
-      
-      setMessages(prev => [...prev, { 
-        text: data.response, 
+
+      setMessages(prev => [...prev, {
+        text: data.response,
         sender: 'bot',
         menuOptions: data.menu_options,
         source: data.source
       }])
     } catch (error) {
       console.error('Erro:', error)
-      setMessages(prev => [...prev, { 
-        text: error.message || 'Desculpe, ocorreu um erro ao conectar com o servidor.', 
+      setMessages(prev => [...prev, {
+        text: error.message || 'Desculpe, ocorreu um erro ao conectar com o servidor.',
         sender: 'bot',
         isError: true
       }])
@@ -79,7 +80,6 @@ function App() {
   const handleMenuSelect = async (command) => {
     setIsLoading(true)
     setShowMenuOptions(false)
-    
     const userMessage = { text: command, sender: 'user' }
     setMessages(prev => [...prev, userMessage])
 
@@ -93,20 +93,20 @@ function App() {
       })
 
       const data = await response.json()
-      
+
       if (data.error) {
         throw new Error(data.message || 'Erro no servidor')
       }
-      
-      setMessages(prev => [...prev, { 
-        text: data.response, 
+
+      setMessages(prev => [...prev, {
+        text: data.response,
         sender: 'bot',
         source: data.source
       }])
     } catch (error) {
       console.error('Erro:', error)
-      setMessages(prev => [...prev, { 
-        text: error.message || 'Desculpe, ocorreu um erro ao processar sua seleção.', 
+      setMessages(prev => [...prev, {
+        text: error.message || 'Desculpe, ocorreu um erro ao processar sua seleção.',
         sender: 'bot',
         isError: true
       }])
@@ -117,6 +117,7 @@ function App() {
 
   const showMenu = async () => {
     setIsLoading(true)
+
     try {
       const response = await fetchWithRetry('http://localhost:5000/chat', {
         method: 'POST',
@@ -127,21 +128,22 @@ function App() {
       })
 
       const data = await response.json()
-      
+
       if (data.error) {
         throw new Error(data.message || 'Erro ao carregar menu')
       }
-      
-      setMessages(prev => [...prev, { 
-        text: data.response, 
+
+      setMessages(prev => [...prev, {
+        text: data.response,
         sender: 'bot',
-        menuOptions: data.menu_options 
+        menuOptions: data.menu_options
       }])
+
       setShowMenuOptions(true)
     } catch (error) {
       console.error('Erro:', error)
-      setMessages(prev => [...prev, { 
-        text: error.message || 'Não foi possível carregar o menu. Por favor, tente novamente.', 
+      setMessages(prev => [...prev, {
+        text: error.message || 'Não foi possível carregar o menu. Por favor, tente novamente.',
         sender: 'bot',
         isError: true
       }])
@@ -156,93 +158,95 @@ function App() {
   }
 
   return (
-    <div className="chat-container">
-      <header className="chat-header">
-        <h1 className="text-xl font-bold">ChatBot</h1>
-        <p className="text-sm">Assistente do Jovem Programador</p>
-      </header>
-
-      <div className="chat-messages">
-        {messages.length === 0 ? (
-          <div className="welcome-message">
-            <p>Bem-vindo ao ChatBot!</p>
-            <p>Comece digitando uma mensagem ou</p>
-            <button 
-              onClick={showMenu}
-              className="menu-button"
-            >
-              Mostrar Menu de Opções
-            </button>
-          </div>
+    <div className="chatbot-wrapper">
+      {/* Botão flutuante para abrir o chat */}
+      <button className="chat-toggle-button" onClick={() => setIsChatOpen(!isChatOpen)}>
+        {!isChatOpen ? (
+          <>
+            💬 ChatBot
+          </>
         ) : (
-          messages.map((msg, index) => (
-            <div key={index}>
-              <div className={`message ${msg.sender === 'user' ? 'user-message' : 'bot-message'} ${msg.isError ? 'error-message' : ''}`}>
-                {msg.text}
-                {msg.source && !msg.isError && (
-                  <span className="message-source">{`Fonte: ${msg.source}`}</span>
-                )}
-              </div>
-              {msg.menuOptions && (
-                <div className="menu-container">
-                  {msg.menuOptions.map((option, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => handleMenuSelect(option.command)}
-                      className="menu-button"
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))
+          <>
+            ✖ Fechar
+          </>
         )}
-        {isLoading && (
-          <div className="loading-dots">
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
+      </button>
 
-      <div className="input-container">
-        <form onSubmit={handleSendMessage} className="input-form">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Digite sua mensagem..."
-            className="message-input"
-          />
-          <button
-            type="submit"
-            className="send-button"
-            disabled={isLoading}
-          >
-            Enviar
-          </button>
-        </form>
-        <div className="quick-actions">
-          <button 
-            type="button" 
-            onClick={showMenu}
-            className="quick-action"
-            disabled={isLoading}
-          >
-            Menu
-          </button>
-          <button 
-            type="button" 
-            onClick={clearChat}
-            className="quick-action"
-            disabled={isLoading}
-          >
-            Limpar
-          </button>
+      {/* Janela do chatbot */}
+      <div className={`chat-window ${isChatOpen ? 'open' : ''}`}>
+        <div className="chat-container">
+          <header className="chat-header">
+            <h1>ChatBot</h1>
+            <p>Assistente do Jovem Programador</p>
+          </header>
+
+          <div className="chat-messages">
+            {messages.length === 0 ? (
+              <div className="welcome-message">
+                <p>Bem-vindo ao ChatBot!</p>
+                <p>Comece digitando uma mensagem ou</p>
+                <button onClick={showMenu} className="menu-button">Mostrar Menu</button>
+              </div>
+            ) : (
+              messages.map((msg, index) => (
+                <div key={index}>
+                  <div className={`message ${msg.sender === 'user' ? 'user-message' : 'bot-message'} ${msg.isError ? 'error-message' : ''}`}>
+                    {msg.text}
+                    {msg.source && !msg.isError && (
+                      <span className="message-source">{`Fonte: ${msg.source}`}</span>
+                    )}
+                  </div>
+                  {msg.menuOptions && (
+                    <div className="menu-container">
+                      {msg.menuOptions.map((option, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleMenuSelect(option.command)}
+                          className="menu-button"
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
+
+            {isLoading && (
+              <div className="loading-dots">
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+              </div>
+            )}
+
+            <div ref={messagesEndRef} />
+          </div>
+
+          <div className="input-container">
+            <form onSubmit={handleSendMessage} className="input-form">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Digite sua mensagem..."
+                className="message-input"
+              />
+              <button
+                type="submit"
+                className="send-button"
+                disabled={isLoading}
+              >
+                Enviar
+              </button>
+            </form>
+
+            <div className="quick-actions">
+              <button type="button" onClick={showMenu} className="quick-action" disabled={isLoading}>Menu</button>
+              <button type="button" onClick={clearChat} className="quick-action" disabled={isLoading}>Limpar</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
