@@ -33,3 +33,36 @@ Chatbot interativo para o site [Jovem Programador](https://jovemprogramador.com.
 | ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) | ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) | ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white) |
 
 </div>
+
+
+
+# 🛠 Estrutura do Projeto
+
+```bash
+chatbot-jovem-programador/
+├── src/
+│   ├── components/    # Componentes React
+│   ├── assets/        # Imagens e ícones
+│   ├── App.jsx        # Componente principal
+│   └── App.css        # Estilos personalizados
+├── public/            # Arquivos estáticos
+├── package.json       # Dependências
+└── vite.config.js     # Configuração do Vite
+```
+
+# 📅 Roadmap
+
+- Interface básica do chat
+
+- Sistema de temas (dark/light)
+
+- Menu interativo
+
+- Integração com backend
+
+- Histórico de conversas
+
+- Sistema de login
+
+#
+<div align="center"> Desenvolvido com ❤️ para a comunidade Jovem Programador </div>
