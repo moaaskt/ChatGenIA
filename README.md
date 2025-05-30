@@ -9,7 +9,7 @@
 </div>
 
 
-![Demonstração](https://s7.ezgif.com/tmp/ezgif-761ac450441e85.gif)
+![Demonstração](https://s7.ezgif.com/tmp/ezgif-71f480241310b6.gif)
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/moaaskt/ChatJovemProgramador?style=flat-square)
 ...
