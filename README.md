@@ -9,6 +9,11 @@
 </div>
 
 
+![Demonstração](https://s7.ezgif.com/tmp/ezgif-761ac450441e85.gif)
+
+![GitHub repo size](https://img.shields.io/github/repo-size/moaaskt/ChatJovemProgramador?style=flat-square)
+...
+
 
 ## 🌟 Sobre o Projeto
 
