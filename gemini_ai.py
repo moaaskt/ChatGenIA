@@ -9,7 +9,7 @@ load_dotenv()
 genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 
 # Use o modelo mais recente
-model = genai.GenerativeModel('gemini-2.0-flash')  # Modelo mais recente
+model = genai.GenerativeModel('gemini-1.5-flash')  # Modelo mais recente
 
 def gerar_resposta_gemini(prompt):
     try:
